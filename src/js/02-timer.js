@@ -4,13 +4,16 @@ import 'flatpickr/dist/flatpickr.min.css';
 const timeInput = document.getElementById('datetime-picker');
 const button = document.querySelector('button[data-start]');
 let timerId = null;
+
 const timerEl = {
   days: document.querySelector('span[data-days]'),
   hours: document.querySelector('span[data-hours]'),
   minutes: document.querySelector('span[data-minutes]'),
   seconds: document.querySelector('span[data-seconds]'),
 };
+
 button.disabled = true;
+
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -32,6 +35,7 @@ button.addEventListener('click', onStartTimer);
 function onStartTimer() {
   timerId = setInterval(countDownTime, 1000);
 }
+
 function countDownTime() {
   const currentTime = new Date();
   const selectedTime = timer.selectedDates[0];
@@ -42,12 +46,14 @@ function countDownTime() {
     clearInterval(timerId);
   }
 }
+
 function renderTimer({ days, hours, minutes, seconds }) {
   timerEl.days.textContent = `${days}`;
   timerEl.hours.textContent = `${hours}`;
   timerEl.minutes.textContent = `${minutes}`;
   timerEl.seconds.textContent = `${seconds}`;
 }
+
 function convertMs(ms) {
   // Number of milliseconds per unit of time
   const second = 1000;
