@@ -1,9 +1,12 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import Notiflix from 'notiflix';
+import 'notiflix/dist/notiflix-3.2.6.min.css';
 
 const timeInput = document.getElementById('datetime-picker');
 const button = document.querySelector('button[data-start]');
 let timerId = null;
+button.disabled = true;
 
 const timerEl = {
   days: document.querySelector('span[data-days]'),
@@ -12,17 +15,17 @@ const timerEl = {
   seconds: document.querySelector('span[data-seconds]'),
 };
 
-button.disabled = true;
-
 const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    if (selectedDates[0] < this.defaultDate) {
-      window.alert('Please choose a date in the future');
+    if (selectedDates[0] < new Date()) {
+      Notiflix.Notify.failure('Please choose a date in the future');
+      return;
     } else {
+      Notiflix.Notify.success('You can start the timer');
       button.disabled = false;
     }
   },
@@ -48,10 +51,10 @@ function countDownTime() {
 }
 
 function renderTimer({ days, hours, minutes, seconds }) {
-  timerEl.days.textContent = `${days}`;
-  timerEl.hours.textContent = `${hours}`;
-  timerEl.minutes.textContent = `${minutes}`;
-  timerEl.seconds.textContent = `${seconds}`;
+  timerEl.days.textContent = `${addLeadingZero(`${days}`)}`;
+  timerEl.hours.textContent = `${addLeadingZero(`${hours}`)}`;
+  timerEl.minutes.textContent = `${addLeadingZero(`${minutes}`)}`;
+  timerEl.seconds.textContent = `${addLeadingZero(`${seconds}`)}`;
 }
 
 function convertMs(ms) {
@@ -71,4 +74,12 @@ function convertMs(ms) {
   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
 
   return { days, hours, minutes, seconds };
+}
+
+function addLeadingZero(value) {
+  if (value.length < 2) {
+    return value.padStart(2, '0');
+  } else {
+    return value;
+  }
 }
