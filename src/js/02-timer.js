@@ -25,7 +25,6 @@ const options = {
       Notiflix.Notify.failure('Please choose a date in the future');
       return;
     } else {
-      Notiflix.Notify.success('You can start the timer');
       button.disabled = false;
     }
   },
@@ -44,8 +43,9 @@ function countDownTime() {
   const selectedTime = timer.selectedDates[0];
   const difference = selectedTime - currentTime;
   renderTimer(convertMs(difference));
+  console.log(difference);
 
-  if (difference === 0) {
+  if (difference < 1000) {
     clearInterval(timerId);
   }
 }
