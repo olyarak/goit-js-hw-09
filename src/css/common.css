@@ -23,6 +23,9 @@ button {
   padding: 5px;
   border: 1px solid;
 }
+button:hover {
+  cursor: pointer;
+}
 #datetime-picker {
   margin-left: 15px;
   padding: 5px;
